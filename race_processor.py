@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import csv
 
 def file_reader():
     df = pd.read_csv('2017 CCC Lap Times - Hopkins Park.csv')
@@ -9,8 +10,8 @@ def file_reader():
     num_laps = number_of_laps(df)
 
 
-def lap_processor():
-    pass
+def lap_processor(filename):
+    with open()
 
 def lap_analytics():
 
