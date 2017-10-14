@@ -54,10 +54,6 @@ class LapProcessor:
         #print("position:", position)
 
 
-
-
-
-
 if __name__ == '__main__':
 
     race = LapProcessor("2017 CCC Lap Times - Hopkins Park.csv")
