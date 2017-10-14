@@ -1,3 +1,0 @@
-import pandas
-
-help(pandas)

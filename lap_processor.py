@@ -1,53 +1,64 @@
-import csv
-import numpy as np
 import pandas as pd
+import numpy as np
 from datetime import datetime
-import time
 
-
-class Lap_processor:
+class LapProcessor:
 
     def __init__(self, filename):
-        # str2date = lambda x: datetime.strptime(x.decode("utf-8"), '%H:%M:%S')
 
-        race = np.genfromtxt(filename, delimiter=",", dtype=str)
-        print("printing race file...")
-        print(race)
-        racer_laps = race[1: , 7:]
+        self.race = np.genfromtxt(filename, delimiter=",", dtype=str)
 
-        print("printing laps file by racer")
-        print(racer_laps)
+        # print(race)
+        # Build times per lap grid
+        self.race_laps = self.race[1:, 7:]
+        #print("racer Laps grid:", self.race_laps)
+        self.laps_grid = self.race_laps.transpose()
+        #print("racer Laps grid transposed: ", self.laps_grid)
 
-        laps = racer_laps.transpose()
+        # Format to date time so the laps can be sorted
+        self.laps_grid_timeformat = []
 
-        print("lap formatting tests")
-        print(laps[0][0])
-        lap_value = laps[0][0]
-        lap_value_time = (datetime.strptime(str(lap_value), '%M:%S')).time()
-        print(lap_value_time)
-        # create grid of times per laps
+        for lap in self.laps_grid:
+            if lap[0] != '':
+                self.laps_grid_timeformat.append([(datetime.strptime(str(x), '%M:%S')).time() for x in lap])
 
-        laps_timed = [(datetime.strptime(str(x), '%M:%S')).time() for x in laps[0] if x != '']
-        print(laps_timed[0])
-        print("\n Lap times grid formatted to time object....")
-        print(laps_timed)
+        for rec in self.laps_grid_timeformat:
+            rec.sort()
 
-        # sort laps for reference
-        print("\n Lap times grid formatted sorted...")
-        laps_timed.sort()
-        print(laps_timed)
+        #self.race_analytical = np.array(self.race)
+        self.race_analytical = pd.DataFrame.from_records(self.race[1:], columns=self.race[0])
+        #print(self.race_analytical)
 
-        #lap_times = racer_laps.transpose()
+    def process_laptime_position(self):
 
-        for i in racer_laps:
-            for t in i:
-                if t != '':
-                    #print(t)
-                    t_time = (datetime.strptime(str(t), '%M:%S')).time()
-                    print(t_time in laps_timed)
+              # process the file headers create a lap position column for each lap raced
+        print(self.race_analytical)
+        print(len(self.race_analytical))
+
+        # process each rider
+
+        # process each lap
+
+        # get the relative lap position
+
+        # update the grid
+
+        #evaluate the lap position, update the lap position field
+
+        #print(lap_value_time)
+
+        # test time lookup
+
+        #print(lap_value_time in self.laps_grid_timeformat[0])
+
+        #print("position:", position)
+
+
+
 
 
 
 if __name__ == '__main__':
 
-    my_lap = Lap_processor("test.csv")
+    race = LapProcessor("2017 CCC Lap Times - Hopkins Park.csv")
+    LapProcessor.process_laptime_position(race)
